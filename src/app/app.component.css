@@ -1,1 +1,12 @@
 @import '~@angular/material/prebuilt-themes/indigo-pink.css';
+
+.logout-label{
+  margin-left: 85%;
+}
+
+.login{
+  margin-left: 85%;
+}
+.ico{
+  margin-left: 0.5%;
+}

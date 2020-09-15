@@ -1,2 +1,32 @@
 
+  <mat-toolbar color="primary">
+    <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon" mat-button (click)="drawer.toggle()" >
+      <mat-icon>menu</mat-icon>
+    </button>
+    <span>Co Working</span>
+    <span class="example-spacer"></span>
+    <div *ngIf="isLogged(); then thenBlock else elseBlock;"></div>
+    <ng-template #thenBlock><label class="logout-label">logout</label><mat-icon class="ico" (click)="logout()">logout</mat-icon></ng-template>
+    <ng-template #elseBlock><label class="login">login</label><mat-icon class="ico">login</mat-icon></ng-template>
+  </mat-toolbar>
+
+<mat-drawer-container class="example-container">
+  <mat-drawer mode="side" style="width:400px" #drawer closed>
+    <mat-nav-list>
+        <div *ngIf="isLogged(); then thenBlock1 else elseBlock2;"></div>
+        <ng-template #thenBlock1>
+        <a mat-list-item href="/reservation">Creer une nouvelle Reservation</a>
+        <a mat-list-item href="">Mes réservation</a>
+        <a mat-list-item href="#">Mon compte</a></ng-template>
+        <ng-template #elseBlock2>
+        <a mat-list-item href="/login">Login</a>
+        <a mat-list-item href="/register">Register</a>
+        </ng-template>
+    </mat-nav-list>
+  </mat-drawer>
+
+  <mat-drawer-content>
+
 <router-outlet></router-outlet>
+</mat-drawer-content>
+</mat-drawer-container>

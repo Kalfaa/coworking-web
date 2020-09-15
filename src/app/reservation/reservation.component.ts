@@ -22,4 +22,8 @@ export class ReservationComponent implements OnInit {
     });
   }
 
+  orgValueChange(value: any): void{
+    console.log(value);
+  }
+
 }
