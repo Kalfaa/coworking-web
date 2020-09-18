@@ -21,8 +21,9 @@ import {MatNativeDateModule} from '@angular/material/core';
 import {MatSelectModule} from '@angular/material/select';
 import { LoginComponent } from './login/login.component';
 import {MatCardModule} from '@angular/material/card';
-import {HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import { RegisterComponent } from './register/register.component';
+import {JwtInterceptor} from './helpers/JWTInterceptor';
 @NgModule({
   declarations: [
     AppComponent,
@@ -50,7 +51,7 @@ import { RegisterComponent } from './register/register.component';
     MatCardModule,
     HttpClientModule
   ],
-  providers: [],
+  providers: [{ provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

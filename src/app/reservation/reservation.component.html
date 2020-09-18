@@ -8,8 +8,10 @@
         <ng-template matStepLabel>Choisissez une salle disponible</ng-template>
           <mat-form-field appearance="fill" style="width: 250px" >
             <mat-label>Choisissez un open space</mat-label>
-            <mat-select #val (selectionChange)="orgValueChange(val.value)">
-              <mat-option value="option">Option</mat-option>
+            <mat-select #val   (selectionChange)="orgValueChange(val.value)" name="food">
+              <mat-option *ngFor="let openSpace of openSpaces" [value]="openSpace.name">
+                                {{openSpace.name}}
+                                </mat-option>
             </mat-select>
           </mat-form-field>
         <br>
