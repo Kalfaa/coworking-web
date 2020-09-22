@@ -24,6 +24,10 @@ import {MatCardModule} from '@angular/material/card';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import { RegisterComponent } from './register/register.component';
 import {JwtInterceptor} from './helpers/JWTInterceptor';
+import {ErrorInterceptor} from './helpers/ErrorInterceptor';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatRadioButton, MatRadioModule} from '@angular/material/radio';
+import {MatTableModule} from '@angular/material/table';
 @NgModule({
   declarations: [
     AppComponent,
@@ -49,9 +53,13 @@ import {JwtInterceptor} from './helpers/JWTInterceptor';
     MatNativeDateModule,
     MatSelectModule,
     MatCardModule,
-    HttpClientModule
+    HttpClientModule,
+    MatCheckboxModule,
+    MatRadioModule,
+    MatTableModule
   ],
-  providers: [{ provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }],
+  providers: [{ provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

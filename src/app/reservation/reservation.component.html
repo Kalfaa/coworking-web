@@ -4,12 +4,13 @@
   </button>-->
   <mat-horizontal-stepper [linear]="isLinear" #stepper>
     <mat-step [stepControl]="firstFormGroup">
-      <form [formGroup]="firstFormGroup">
+    <div class="bendo">
+      <form [formGroup]="firstFormGroup" style="width: 30%;display: inline-block;">
         <ng-template matStepLabel>Choisissez une salle disponible</ng-template>
           <mat-form-field appearance="fill" style="width: 250px" >
             <mat-label>Choisissez un open space</mat-label>
-            <mat-select #val   (selectionChange)="orgValueChange(val.value)" name="food">
-              <mat-option *ngFor="let openSpace of openSpaces" [value]="openSpace.name">
+            <mat-select #val   (selectionChange)="orgValueChange(val.value)" formControlName="open">
+              <mat-option *ngFor="let openSpace of openSpaces" [value]="openSpace.id">
                                 {{openSpace.name}}
                                 </mat-option>
             </mat-select>
@@ -19,7 +20,7 @@
         <mat-form-field appearance="fill">
           <mat-label>Choose a date</mat-label>
         <!-- #docregion toggle -->
-          <input matInput #ref [matDatepicker]="picker" (dateChange)="orgValueChange(ref.value)">
+          <input matInput #ref [matDatepicker]="picker" (dateChange)="orgValueChange(ref.value)" formControlName="date">
           <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
           <mat-datepicker #picker></mat-datepicker>
         <!-- #enddocregion toggle -->
@@ -27,32 +28,69 @@
         </div>
 
         <div>
-          <button mat-button matStepperNext>Next</button>
+          <button mat-raised-button  color="primary" [disabled]="!(this.endHour && this.startHour)" matStepperNext>Next</button>
         </div>
       </form>
+      <div id="start-hour">
+      <h3>Heure d'arrivé</h3>
+      <section class="example-section">
+      <mat-checkbox  color="primary"  *ngFor="let hour of getStartHours();" (change)="startRes(hour.hour)" [disabled]="hour.isDisabled" >
+            {{hour.hour}}
+      </mat-checkbox>
+      </section>
+      </div>
+      <div id="end-hour">
+      <h3>Heure de départ</h3>
+            <section class="example-section">
+                  <mat-checkbox  color="primary"  *ngFor="let hour of getEndHours();"  (change)="endRes(hour.hour)" [disabled]="hour.isDisabled" >
+                        {{hour.hour}}
+                  </mat-checkbox>
+                  </section>
+      </div>
 
+    </div>
     </mat-step>
     <!-- #docregion label -->
     <mat-step [stepControl]="secondFormGroup" label="Fill out your address">
     <!-- #enddocregion label -->
-      <form [formGroup]="secondFormGroup">
-        <mat-form-field>
-          <mat-label>Address</mat-label>
-          <input matInput formControlName="secondCtrl" placeholder="Ex. 1 Main St, New York, NY"
-                 required>
-        </mat-form-field>
+
+
+          <mat-radio-group [(ngModel)]="roomId">
+          <div *ngFor="let room of getRooms(); let i = index" style="width: 30%; display:inline-block;">
+             <mat-card class="example-card">
+             <mat-card-header>
+             <mat-card-title>{{room.name}}</mat-card-title>
+             <mat-card-subtitle>Dog Breed</mat-card-subtitle>
+             </mat-card-header>
+             <img mat-card-image src="assets/cowk.jpg" alt="Photo of a Shiba Inu">
+             <mat-card-content>
+             <p>
+             {{ room.description }}
+             </p>
+             </mat-card-content>
+             <mat-radio-button class="example-margin" value="{{room.id}}">Reserver</mat-radio-button>
+             </mat-card>
+          </div>
+          </mat-radio-group>
+          <mat-list role="list">
+          <form class="example-container">
+          <div *ngFor="let tool of getTools(); let i = index" style="" >
+            <mat-list-item role="listitem">{{tool.name}}</mat-list-item>
+            <input matInput type="number" min="0" max="3">
+          </div>
+          </form>
+          </mat-list>
         <div>
           <button mat-button matStepperPrevious>Back</button>
           <button mat-button matStepperNext>Next</button>
         </div>
-      </form>
     </mat-step>
     <mat-step>
       <ng-template matStepLabel>Done</ng-template>
       <p>You are now done.</p>
       <div>
         <button mat-button matStepperPrevious>Back</button>
-        <button mat-button (click)="stepper.reset()">Reset</button>
+        <button mat-button (click)="reserve()">Reserver !</button>
       </div>
     </mat-step>
   </mat-horizontal-stepper>

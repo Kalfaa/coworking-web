@@ -29,3 +29,27 @@ export class Tool {
   id: string;
   name: string;
 }
+
+export class ReservationHour {
+  hour: string;
+  isDisabled: boolean;
+}
+
+
+
+export class ReservationCreation {
+  start: Date;
+  end: Date;
+  food: number;
+  room: string;
+  tools: string[];
+}
+
+export class Reservation {
+  id: string;
+  start: Date;
+  end: Date;
+  food: number;
+  room: Room;
+  tools: Tool[];
+}

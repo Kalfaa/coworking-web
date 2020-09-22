@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {OpenSpace, User} from './interface/login';
+import {OpenSpace, Reservation, ReservationCreation, User} from './interface/login';
 import {environment} from '../environments/environment';
 import {map} from 'rxjs/internal/operators';
 import {HttpClient} from '@angular/common/http';
@@ -44,6 +44,20 @@ export class OpenSpaceService {
       }));
   }
 
+  getAvailable(date: Date, openSpaceId): any {
+    return this.http.get<Reservation>(`${environment.apiUrl}/reservation/available/'${openSpaceId}/${date}`)
+      .pipe(map(resp => {
+        // store user details and jwt token in local storage to keep user logged in between page refreshes
+        console.log(resp);
+      }));
+  }
 
+  reserve(reservation: ReservationCreation): any {
+    return this.http.post<OpenSpace>(`${environment.apiUrl}/reservation/`, reservation)
+      .pipe(map(resp => {
+        // store user details and jwt token in local storage to keep user logged in between page refreshes
+        console.log(resp);
+      }));
+  }
 
 }

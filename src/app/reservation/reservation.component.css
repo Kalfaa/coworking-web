@@ -11,3 +11,29 @@
   margin-top: 16px;
 }
 
+.bendo{
+  display: flex;
+}
+
+#start-hour{
+  display: none;
+  width: 30%;
+  /*
+ display: inline-block;*/
+}
+#end-hour{
+  display: none;
+  width: 30%;
+  /*
+  display: inline-block;*/
+}
+
+
+.example-card {
+  max-width: 400px;
+}
+
+.example-header-image {
+  background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
+  background-size: cover;
+}
