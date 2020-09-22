@@ -1,6 +1,6 @@
 import {AfterViewChecked, Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {OpenSpace, ReservationCreation, ReservationHour} from '../interface/login';
+import {OpenSpace, Reservation, ReservationCreation, ReservationHour, Room, RoomAvailable} from '../interface/login';
 import {OpenSpaceService} from '../open-space.service';
 import {first} from 'rxjs/internal/operators';
 import {Router} from '@angular/router';
@@ -27,7 +27,9 @@ export class ReservationComponent implements OnInit, AfterViewChecked{
   toggleEnd: boolean;
   openSpace: OpenSpace;
   roomId: string;
-
+  reservationForDate: Reservation[];
+  availableRoom: RoomAvailable[];
+  availableHour: object;
   constructor(private formBuilder: FormBuilder, public openSpaceService: OpenSpaceService, public router: Router) {}
 
   public ngAfterViewChecked(): void {
@@ -55,28 +57,40 @@ export class ReservationComponent implements OnInit, AfterViewChecked{
 
   }
 
+  myFilter = (d: Date | null): boolean => {
+    // Prevent Saturday and Sunday from being selected.
+    return d > new Date();
+  }
+
   orgValueChange(value: any): void{
     if (!this.firstFormGroup.controls.date.value || !this.firstFormGroup.controls.open.value) { return ; }
     this.openSpaceService.getAvailable(new Date(this.firstFormGroup.controls.date.value), this.firstFormGroup.controls.open.value).pipe(first())
       .subscribe(
         data => {
           console.log('AVAILABLE');
-          console.log(data);
           console.log(this.firstFormGroup.controls.open.value);
           console.log(this.openSpaces);
+          this.reservationForDate = data.reservations;
+          this.availableHour = data.availableHour;
           this.openSpace = this.findOpenSpaceById(this.firstFormGroup.controls.open.value);
           if (this.openSpace.rooms[0].id){
-              this.roomId = this.openSpace.rooms[0].id;
+              this.roomId = this.openSpace.rooms[0].id; // TODO
             }
           console.log(this.openSpace);
           this.startHour = null;
           this.endHour =  null;
           this.startHours = [];
-          const notAvaiableHour: string[] = this.getNotAvaiblableHour(data);
           this.hourArray.forEach(hour => {
-            const reservationHour: ReservationHour = {hour, isDisabled: false};
+            let isDisabled = false;
+            const formatHour = parseInt(hour).toString();
+            console.log(data.availableHour[formatHour]);
+            if (data.availableHour[formatHour] === this.openSpace.rooms.length){
+              isDisabled = true;
+            }
+            const reservationHour: ReservationHour = {hour, isDisabled};
             this.startHours.push(reservationHour);
           });
+          this.startHours.pop();
           console.log(this.startDiv);
           this.toggleEnd = true;
           this.startDiv.style.display = 'inline-block';
@@ -107,8 +121,8 @@ export class ReservationComponent implements OnInit, AfterViewChecked{
     return (this.openSpace && this.openSpace.tools) ? this.openSpace.tools : [];
   }
 
-  getRooms(): object {
-    return (this.openSpace && this.openSpace.rooms) ? this.openSpace.rooms : [];
+  getRooms(): RoomAvailable[] {
+    return (this.openSpace && this.openSpace.rooms && this.startHour && this.endHour) ? this.availableRoom : [];
   }
 
   startRes(val: any): void{
@@ -131,21 +145,29 @@ export class ReservationComponent implements OnInit, AfterViewChecked{
       console.log(val);
       this.endHour = val;
       this.disabledEndHour(val);
+      this.availableRoom = this.getAvailableRoom();
+      this.roomId = this.firstAvailableRoom().room.id;
     }else{
       this.endHour = null;
       this.getEndVal(this.startHour);
+      this.availableRoom = [];
     }
     this.toggleEnd = !this.toggleEnd;
   }
 
   getEndVal(val){
+    let isDisabled = false;
     this.endHours = [];
     const parsedVal = parseInt(val);
-    this.startHours.forEach(hour => {
-     if (parsedVal >= parseInt(hour.hour)){
+    this.hourArray.forEach(hour => {
+     if (parsedVal >= parseInt(hour)){
         return;
       }
-     const reservationHour: ReservationHour = {hour: hour.hour, isDisabled: false};
+     const formatHour = parseInt(hour).toString();
+     const reservationHour: ReservationHour = {hour, isDisabled};
+     if (isDisabled === false && this.availableHour[formatHour] === this.openSpace.rooms.length){
+        isDisabled = true;
+      }
      this.endHours.push(reservationHour);
     });
     console.log(this.endHours);
@@ -173,9 +195,9 @@ export class ReservationComponent implements OnInit, AfterViewChecked{
 
   reserve(): void {
       const start: Date = new Date(this.firstFormGroup.controls.date.value);
-      start.setUTCHours(parseInt(this.startHour));
+      start.setHours(parseInt(this.startHour));
       const end: Date = new Date(this.firstFormGroup.controls.date.value);
-      end.setUTCHours(parseInt(this.endHour));
+      end.setHours(parseInt(this.endHour));
       console.log(start);
       console.log(end);
       const reservation: ReservationCreation = {
@@ -194,5 +216,51 @@ export class ReservationComponent implements OnInit, AfterViewChecked{
           error => {
             console.log(error);
           });
+  }
+
+  isDateOverLapping(startDate1, endDate1, startDate2, endDate2){
+    return (startDate1 <= endDate2) && (endDate1 >= startDate2);
+  }
+
+  private getAvailableRoom(): RoomAvailable[]  {
+    const res: RoomAvailable[] = [];
+    this.openSpace.rooms.forEach(room =>
+    {
+      const roomAvailable: RoomAvailable = {room, available: this.isRoomAvailable(room.id)};
+      res.push(roomAvailable);
+    });
+    console.log(res);
+    return res;
+  }
+
+  isRoomAvailable(roomId: string): boolean{
+    const start: Date = new Date(this.firstFormGroup.controls.date.value);
+    start.setHours(parseInt(this.startHour));
+    const end: Date = new Date(this.firstFormGroup.controls.date.value);
+    end.setHours(parseInt(this.endHour));
+
+    for (let i = 0; i < this.reservationForDate.length; i++){
+        const reservation: Reservation = this.reservationForDate[i];
+        if (reservation.room.id === roomId){
+          console.log(new Date(reservation.start));
+          console.log(new Date(reservation.end));
+          console.log(start);
+          console.log(end);
+          if (this.isDateOverLapping(new Date(reservation.start), new Date(reservation.end), start, end)){
+            return false;
+          }
+        }
+    }
+    return true;
+  }
+
+  private firstAvailableRoom(): RoomAvailable {
+    let res: RoomAvailable = null;
+    this.availableRoom.forEach(room => {
+      if (room.available && res === null){
+        res =  room;
+      }
+    });
+    return res;
   }
 }

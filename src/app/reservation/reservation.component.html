@@ -20,7 +20,7 @@
         <mat-form-field appearance="fill">
           <mat-label>Choose a date</mat-label>
         <!-- #docregion toggle -->
-          <input matInput #ref [matDatepicker]="picker" (dateChange)="orgValueChange(ref.value)" formControlName="date">
+          <input matInput #ref [matDatepicker]="picker" [matDatepickerFilter]="myFilter" (dateChange)="orgValueChange(ref.value)" formControlName="date">
           <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
           <mat-datepicker #picker></mat-datepicker>
         <!-- #enddocregion toggle -->
@@ -56,19 +56,19 @@
 
 
           <mat-radio-group [(ngModel)]="roomId">
-          <div *ngFor="let room of getRooms(); let i = index" style="width: 30%; display:inline-block;">
+          <div *ngFor="let available of getRooms(); let i = index" style="width: 30%; display:inline-block;">
              <mat-card class="example-card">
              <mat-card-header>
-             <mat-card-title>{{room.name}}</mat-card-title>
+             <mat-card-title>{{available.room.name}}</mat-card-title>
              <mat-card-subtitle>Dog Breed</mat-card-subtitle>
              </mat-card-header>
              <img mat-card-image src="assets/cowk.jpg" alt="Photo of a Shiba Inu">
              <mat-card-content>
              <p>
-             {{ room.description }}
+             {{ available.room.description }}
              </p>
              </mat-card-content>
-             <mat-radio-button class="example-margin" value="{{room.id}}">Reserver</mat-radio-button>
+             <mat-radio-button class="example-margin" [disabled]="!available.available" value="{{available.room.id}}">Reserver</mat-radio-button>
              </mat-card>
           </div>
           </mat-radio-group>

@@ -31,7 +31,6 @@ export class AuthService {
   }*/
   isLogged(): boolean{
     const user = localStorage.getItem('user');
-    console.log(user);
     if (!user){
       console.log('NOT CONNECTED');
       return false;

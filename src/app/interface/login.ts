@@ -53,3 +53,14 @@ export class Reservation {
   room: Room;
   tools: Tool[];
 }
+
+export class Available {
+  reservation: RoomAvailable[];
+  availableHour: object;
+}
+
+
+export class RoomAvailable{
+  room: Room;
+  available;
+}

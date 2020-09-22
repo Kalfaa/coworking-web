@@ -45,10 +45,9 @@ export class OpenSpaceService {
   }
 
   getAvailable(date: Date, openSpaceId): any {
-    return this.http.get<Reservation>(`${environment.apiUrl}/reservation/available/'${openSpaceId}/${date}`)
+    return this.http.get<Reservation[]>(`${environment.apiUrl}/reservation/available/${openSpaceId}/${date}`)
       .pipe(map(resp => {
-        // store user details and jwt token in local storage to keep user logged in between page refreshes
-        console.log(resp);
+        return resp;
       }));
   }
 
