@@ -28,6 +28,7 @@ import {ErrorInterceptor} from './helpers/ErrorInterceptor';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatRadioButton, MatRadioModule} from '@angular/material/radio';
 import {MatTableModule} from '@angular/material/table';
+import {MatSliderModule} from '@angular/material/slider';
 @NgModule({
   declarations: [
     AppComponent,
@@ -56,7 +57,8 @@ import {MatTableModule} from '@angular/material/table';
     HttpClientModule,
     MatCheckboxModule,
     MatRadioModule,
-    MatTableModule
+    MatTableModule,
+    MatSliderModule
   ],
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }],

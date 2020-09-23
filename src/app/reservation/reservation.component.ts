@@ -1,6 +1,9 @@
 import {AfterViewChecked, Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {OpenSpace, Reservation, ReservationCreation, ReservationHour, Room, RoomAvailable} from '../interface/login';
+import {
+  OpenSpace, Reservation, ReservationCreation, ReservationHour, Room, RoomAvailable, SortedTool, Tool, ToolAvailable,
+  ToolType
+} from '../interface/login';
 import {OpenSpaceService} from '../open-space.service';
 import {first} from 'rxjs/internal/operators';
 import {Router} from '@angular/router';
@@ -30,6 +33,9 @@ export class ReservationComponent implements OnInit, AfterViewChecked{
   reservationForDate: Reservation[];
   availableRoom: RoomAvailable[];
   availableHour: object;
+  availableTool: SortedTool;
+  pcNumber: number;
+  printerNumber: number;
   constructor(private formBuilder: FormBuilder, public openSpaceService: OpenSpaceService, public router: Router) {}
 
   public ngAfterViewChecked(): void {
@@ -61,6 +67,7 @@ export class ReservationComponent implements OnInit, AfterViewChecked{
     // Prevent Saturday and Sunday from being selected.
     return d > new Date();
   }
+
 
   orgValueChange(value: any): void{
     if (!this.firstFormGroup.controls.date.value || !this.firstFormGroup.controls.open.value) { return ; }
@@ -117,8 +124,11 @@ export class ReservationComponent implements OnInit, AfterViewChecked{
     return (this.endHours ) ? this.endHours : [];
   }
 
-  getTools(): object {
-    return (this.openSpace && this.openSpace.tools) ? this.openSpace.tools : [];
+  getPc(): ToolAvailable[] {
+    return (this.openSpace && this.availableTool) ? this.availableTool.laptops : [] ;
+  }
+  getPrinters(): ToolAvailable[] {
+    return (this.openSpace && this.availableTool) ? this.availableTool.printers : [] ;
   }
 
   getRooms(): RoomAvailable[] {
@@ -146,6 +156,8 @@ export class ReservationComponent implements OnInit, AfterViewChecked{
       this.endHour = val;
       this.disabledEndHour(val);
       this.availableRoom = this.getAvailableRoom();
+      this.availableTool = this.sortTool(this.getAvailableTool());
+      console.log(this.availableTool);
       this.roomId = this.firstAvailableRoom().room.id;
     }else{
       this.endHour = null;
@@ -254,11 +266,57 @@ export class ReservationComponent implements OnInit, AfterViewChecked{
     return true;
   }
 
+  private getAvailableTool(): ToolAvailable[]  {
+    const res: ToolAvailable[] = [];
+    this.openSpace.tools.forEach(tool =>
+    {
+      const toolAvailable: ToolAvailable = {tool, available: this.isToolAvailable(tool.id)};
+      res.push(toolAvailable);
+    });
+    console.log(res);
+    return res;
+  }
+
+  isToolAvailable(roomId: string): boolean{
+    const start: Date = new Date(this.firstFormGroup.controls.date.value);
+    start.setHours(parseInt(this.startHour));
+    const end: Date = new Date(this.firstFormGroup.controls.date.value);
+    end.setHours(parseInt(this.endHour));
+
+    for (let i = 0; i < this.reservationForDate.length; i++){
+      const reservation: Reservation = this.reservationForDate[i];
+      if (reservation.room.id === roomId){
+        console.log(new Date(reservation.start));
+        console.log(new Date(reservation.end));
+        console.log(start);
+        console.log(end);
+        if (this.isDateOverLapping(new Date(reservation.start), new Date(reservation.end), start, end)){
+          return false;
+        }
+      }
+    }
+    return true;
+  }
+
   private firstAvailableRoom(): RoomAvailable {
     let res: RoomAvailable = null;
     this.availableRoom.forEach(room => {
       if (room.available && res === null){
         res =  room;
+      }
+    });
+    return res;
+  }
+
+  sortTool(tools: ToolAvailable[]): SortedTool{
+    const res: SortedTool = {laptops: [], printers: [], others: []};
+    tools.forEach(tool => {
+      if (tool.tool.type === ToolType.LAPTOP){
+        res.laptops.push(tool);
+      }else if (tool.tool.type === ToolType.PRINTER){
+        res.printers.push(tool);
+      }else{
+        res.others.push(tool);
       }
     });
     return res;

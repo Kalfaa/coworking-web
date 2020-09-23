@@ -25,10 +25,25 @@ export class Room {
   description: string;
 }
 
+export enum ToolType {
+  TOOL = 'TOOL',
+  PRINTER = 'PRINTER',
+  LAPTOP = 'LAPTOP'
+}
+
+
 export class Tool {
   id: string;
   name: string;
+  type: ToolType;
 }
+
+export class SortedTool{
+  laptops: ToolAvailable[];
+  printers: ToolAvailable[];
+  others: ToolAvailable[];
+}
+
 
 export class ReservationHour {
   hour: string;
@@ -62,5 +77,10 @@ export class Available {
 
 export class RoomAvailable{
   room: Room;
+  available;
+}
+
+export class ToolAvailable{
+  tool: Tool;
   available;
 }
