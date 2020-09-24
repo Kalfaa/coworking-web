@@ -6,7 +6,7 @@
     <mat-step [stepControl]="firstFormGroup">
     <div class="bendo">
       <form [formGroup]="firstFormGroup" style="width: 30%;display: inline-block;">
-        <ng-template matStepLabel>Choisissez une salle disponible</ng-template>
+        <ng-template matStepLabel>Choisissez une date de réservation </ng-template>
           <mat-form-field appearance="fill" style="width: 250px" >
             <mat-label>Choisissez un open space</mat-label>
             <mat-select #val   (selectionChange)="orgValueChange(val.value)" formControlName="open">
@@ -28,7 +28,7 @@
         </div>
 
         <div>
-          <button mat-raised-button  color="primary" [disabled]="!(this.endHour && this.startHour)" matStepperNext>Next</button>
+          <button mat-raised-button  color="primary" [disabled]="!(this.endHour && this.startHour)" matStepperNext>Suivant</button>
         </div>
       </form>
       <div id="start-hour">
@@ -51,7 +51,7 @@
     </div>
     </mat-step>
     <!-- #docregion label -->
-    <mat-step [stepControl]="secondFormGroup" label="Fill out your address">
+    <mat-step [stepControl]="secondFormGroup" label="Selectionnez une salle à reserver">
     <!-- #enddocregion label -->
 
 
@@ -72,13 +72,13 @@
              </mat-card>
           </div>
           </mat-radio-group>
-        <div>
-          <button mat-button matStepperPrevious>Back</button>
-          <button mat-button matStepperNext>Next</button>
+        <div style="margin-top:2%">
+          <button mat-raised-button matStepperPrevious>Back</button>
+          <button mat-raised-button  color="primary"  matStepperNext>Suivant</button>
         </div>
     </mat-step>
     <mat-step>
-      <ng-template matStepLabel>Done</ng-template>
+      <ng-template matStepLabel>Finalisez la reservation</ng-template>
                 <!--<mat-list role="list">
                 <form class="example-container">
                 <div *ngFor="let tool of getTools(); let i = index" style="" >
@@ -87,16 +87,20 @@
                 </div>
                 </form>
                 </mat-list>-->
-                <div style="display: inline-block; margin-top: 60px;"><mat-icon style="transform: scale(4);margin-left: 30px;">laptop</mat-icon></div> <div style="display: inline-block;margin-left: 50px;"></div>
-                <mat-slider color="primary" thumbLabel [(ngModel)]="pcNumber" tickInterval="1000" min="0" [max]="getPc().length"></mat-slider>
-                <div style="display: inline-block; margin-top: 60px;"><mat-icon style="transform: scale(4);margin-left: 30px;">local_printshop</mat-icon></div> <div style="display: inline-block;margin-left: 50px;"></div>
+                <div style="display: inline-block; margin-top: 60px;"><mat-icon style="transform: scale(4);margin-left: 30px;">laptop</mat-icon></div>
+                <div style="display: inline-block; margin-left: 65px;">{{pcNumber}}</div> <div style="display: inline-block;margin-left: 10px;"></div>
+                <mat-slider color="primary" [disabled]="getPc().length===0" thumbLabel [(ngModel)]="pcNumber" tickInterval="1000" min="0" [max]="getPc().length"></mat-slider>
+                <br>
 
+                <div style="display: inline-block; margin-top: 60px;"><mat-icon style="transform: scale(4);margin-left: 30px;">local_printshop</mat-icon></div> <div style="display: inline-block; margin-left: 65px;">{{printerNumber}}</div>  <div style="display: inline-block;margin-left: 10px;"></div>
+                <mat-slider color="primary" thumbLabel [disabled]="getPrinters().length===0" [(ngModel)]="printerNumber" tickInterval="1000" min="0" [max]="getPrinters().length"></mat-slider>
 
-                <mat-slider color="primary" thumbLabel [(ngModel)]="printerNumber" tickInterval="1000" min="0" [max]="getPrinters().length"></mat-slider>
+                <br><div style="display: inline-block; margin-top: 60px;"><mat-icon style="transform: scale(4);margin-left: 30px;"> fastfood</mat-icon></div> <div style="display: inline-block; margin-left: 65px;">{{foodNumber}}</div>  <div style="display: inline-block;margin-left: 10px;"></div>
+                <mat-slider color="primary" thumbLabel [(ngModel)]="foodNumber" tickInterval="1000" min="0" [max]="20"></mat-slider>
 
-      <div>
-        <button mat-button matStepperPrevious>Back</button>
-        <button mat-button (click)="reserve()">Reserver !</button>
+      <div style="margin-top:2%;">
+        <button mat-raised-button   mat-button matStepperPrevious>Back</button>
+        <button mat-raised-button  color="primary" (click)="reserve()">Reserver !</button>
       </div>
     </mat-step>
   </mat-horizontal-stepper>

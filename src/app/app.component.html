@@ -16,7 +16,7 @@
         <div *ngIf="isLogged(); then thenBlock1 else elseBlock2;"></div>
         <ng-template #thenBlock1>
         <a mat-list-item href="/reservation">Creer une nouvelle Reservation</a>
-        <a mat-list-item href="">Mes réservation</a>
+        <a mat-list-item href="/reservation-list">Mes réservation</a>
         <a mat-list-item href="#">Mon compte</a></ng-template>
         <ng-template #elseBlock2>
         <a mat-list-item href="/login">Login</a>
@@ -27,6 +27,6 @@
 
   <mat-drawer-content>
 
-<router-outlet></router-outlet>
+<main><router-outlet></router-outlet></main>
 </mat-drawer-content>
 </mat-drawer-container>

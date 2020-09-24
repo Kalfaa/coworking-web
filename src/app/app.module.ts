@@ -29,6 +29,7 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatRadioButton, MatRadioModule} from '@angular/material/radio';
 import {MatTableModule} from '@angular/material/table';
 import {MatSliderModule} from '@angular/material/slider';
+import { ReservationListComponent } from './reservation-list/reservation-list.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -36,6 +37,7 @@ import {MatSliderModule} from '@angular/material/slider';
     ReservationComponent,
     LoginComponent,
     RegisterComponent,
+    ReservationListComponent,
   ],
   imports: [
     BrowserModule,
@@ -58,7 +60,7 @@ import {MatSliderModule} from '@angular/material/slider';
     MatCheckboxModule,
     MatRadioModule,
     MatTableModule,
-    MatSliderModule
+    MatSliderModule,
   ],
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }],

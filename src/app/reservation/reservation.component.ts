@@ -28,14 +28,18 @@ export class ReservationComponent implements OnInit, AfterViewChecked{
   startHour: string;
   endHour: string;
   toggleEnd: boolean;
+  toggleStart:boolean;
   openSpace: OpenSpace;
   roomId: string;
   reservationForDate: Reservation[];
   availableRoom: RoomAvailable[];
   availableHour: object;
   availableTool: SortedTool;
-  pcNumber: number;
-  printerNumber: number;
+  pcNumber  = 0;
+  printerNumber = 0;
+  foodNumber = 0;
+  private data: any;
+
   constructor(private formBuilder: FormBuilder, public openSpaceService: OpenSpaceService, public router: Router) {}
 
   public ngAfterViewChecked(): void {
@@ -74,6 +78,7 @@ export class ReservationComponent implements OnInit, AfterViewChecked{
     this.openSpaceService.getAvailable(new Date(this.firstFormGroup.controls.date.value), this.firstFormGroup.controls.open.value).pipe(first())
       .subscribe(
         data => {
+          this.data = data;
           console.log('AVAILABLE');
           console.log(this.firstFormGroup.controls.open.value);
           console.log(this.openSpaces);
@@ -99,6 +104,7 @@ export class ReservationComponent implements OnInit, AfterViewChecked{
           });
           this.startHours.pop();
           console.log(this.startDiv);
+          this.toggleStart = true;
           this.toggleEnd = true;
           this.startDiv.style.display = 'inline-block';
           this.endDiv.style.display = 'none';
@@ -136,17 +142,30 @@ export class ReservationComponent implements OnInit, AfterViewChecked{
   }
 
   startRes(val: any): void{
+    if (this.toggleStart) {
       console.log(val);
       this.disabledHour(val);
       this.startHour = val;
       this.endDiv.style.display = 'inline-block';
       this.getEndVal(val);
+    }else{
+      this.endHour = null;
+      this.availableRoom = [];
+      this.startHour = null;
+      this.startHours = [];
+      this.getStartVal();
+      this.endDiv.style.display = 'none';
+      this.toggleEnd = true;
+    }
+    this.toggleStart = !this.toggleStart;
   }
 
   disabledHour(actual: string): void{
     this.startHours.forEach(hour => {
-      const dis = true;
-      hour.isDisabled = true;
+      if (hour.hour !== actual) {
+        const dis = true;
+        hour.isDisabled = true;
+      }
     });
   }
 
@@ -185,6 +204,19 @@ export class ReservationComponent implements OnInit, AfterViewChecked{
     console.log(this.endHours);
   }
 
+  getStartVal(){
+    this.hourArray.forEach(hour => {
+      let isDisabled = false;
+      const formatHour = parseInt(hour).toString();
+      console.log(this.data.availableHour[formatHour]);
+      if (this.data.availableHour[formatHour] === this.openSpace.rooms.length){
+        isDisabled = true;
+      }
+      const reservationHour: ReservationHour = {hour, isDisabled};
+      this.startHours.push(reservationHour);
+    });
+    this.startHours.pop();
+  }
 
   disabledEndHour(actual: string): void{
     this.endHours.forEach(hour => {
@@ -212,12 +244,13 @@ export class ReservationComponent implements OnInit, AfterViewChecked{
       end.setHours(parseInt(this.endHour));
       console.log(start);
       console.log(end);
+      const reserved: string[] =  this.pickSomeToolToReserve(this.pcNumber, this.printerNumber) ;
       const reservation: ReservationCreation = {
         start,
         end,
-        food: 0,
+        food: this.foodNumber,
         room: this.roomId,
-        tools: []
+        tools: reserved
       };
       this.openSpaceService.reserve(reservation).pipe(first())
         .subscribe(
@@ -270,28 +303,33 @@ export class ReservationComponent implements OnInit, AfterViewChecked{
     const res: ToolAvailable[] = [];
     this.openSpace.tools.forEach(tool =>
     {
-      const toolAvailable: ToolAvailable = {tool, available: this.isToolAvailable(tool.id)};
-      res.push(toolAvailable);
+      if (this.isToolAvailable(tool.id)){
+        const toolAvailable: ToolAvailable = {tool, available: true };
+        res.push(toolAvailable);
+      }
     });
     console.log(res);
     return res;
   }
 
-  isToolAvailable(roomId: string): boolean{
+  isToolAvailable(toolId: string): boolean{
     const start: Date = new Date(this.firstFormGroup.controls.date.value);
     start.setHours(parseInt(this.startHour));
     const end: Date = new Date(this.firstFormGroup.controls.date.value);
     end.setHours(parseInt(this.endHour));
 
-    for (let i = 0; i < this.reservationForDate.length; i++){
+    for (let i = 0; i < this.reservationForDate.length; i++) {
       const reservation: Reservation = this.reservationForDate[i];
-      if (reservation.room.id === roomId){
-        console.log(new Date(reservation.start));
-        console.log(new Date(reservation.end));
-        console.log(start);
-        console.log(end);
-        if (this.isDateOverLapping(new Date(reservation.start), new Date(reservation.end), start, end)){
-          return false;
+      console.log(reservation);
+      for (let j = 0; j < reservation.tool.length; j++){
+        if (reservation.tool[j].id === toolId) {
+          console.log(new Date(reservation.start));
+          console.log(new Date(reservation.end));
+          console.log(start);
+          console.log(end);
+          if (this.isDateOverLapping(new Date(reservation.start), new Date(reservation.end), start, end)) {
+            return false;
+          }
         }
       }
     }
@@ -320,5 +358,34 @@ export class ReservationComponent implements OnInit, AfterViewChecked{
       }
     });
     return res;
+  }
+
+  pickSomeToolToReserve(pcNumber: number, printerNumber: number): string[] {
+    const res = [];
+    let pcRetrieve = 0;
+    let printerRetrieve = 0;
+    for (let i = 0; i < this.availableTool.laptops.length; i++) {
+      if (pcRetrieve === pcNumber){
+        break;
+      }
+      const tool = this.availableTool.laptops[i];
+      if (tool.available) {
+        res.push(tool.tool.id);
+        pcRetrieve += 1;
+      }
+
+    }
+    for (let i = 0; i < this.availableTool.printers.length; i++) {
+      if (printerRetrieve === printerNumber){
+        break;
+      }
+      const tool = this.availableTool.printers[i];
+      if (tool.available) {
+        res.push(tool.tool.id);
+        printerRetrieve += 1;
+      }
+    }
+    return res;
+
   }
 }

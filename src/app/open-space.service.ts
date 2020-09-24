@@ -44,6 +44,12 @@ export class OpenSpaceService {
       }));
   }
 
+  readReservation(): any {
+    return this.http.get<Reservation[]>(`${environment.apiUrl}/reservation/myReservation/`)
+      .pipe(map(resp => {
+        return resp;
+      }));
+  }
   getAvailable(date: Date, openSpaceId): any {
     return this.http.get<Reservation[]>(`${environment.apiUrl}/reservation/available/${openSpaceId}/${date}`)
       .pipe(map(resp => {

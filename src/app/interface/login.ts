@@ -66,7 +66,8 @@ export class Reservation {
   end: Date;
   food: number;
   room: Room;
-  tools: Tool[];
+  tool: Tool[];
+  user: object;
 }
 
 export class Available {
