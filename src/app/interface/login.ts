@@ -18,11 +18,15 @@ export class OpenSpace {
   tools: Tool[];
 }
 
+export class OpenSpaceId {
+  id: string;
+}
 
 export class Room {
   id: string;
   name: string;
   description: string;
+  openSpace: OpenSpaceId;
 }
 
 export enum ToolType {
@@ -44,6 +48,12 @@ export class SortedTool{
   others: ToolAvailable[];
 }
 
+
+export class SortedToolBasic{
+  laptops: Tool[];
+  printers: Tool[];
+  others: Tool[];
+}
 
 export class ReservationHour {
   hour: string;
@@ -68,6 +78,7 @@ export class Reservation {
   room: Room;
   tool: Tool[];
   user: object;
+  tools: Tool[];
 }
 
 export class Available {

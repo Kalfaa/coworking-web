@@ -50,7 +50,23 @@ export class OpenSpaceService {
         return resp;
       }));
   }
-  getAvailable(date: Date, openSpaceId): any {
+
+  a(id: string): any {
+    return this.http.get<Reservation>(`${environment.apiUrl}/reservation/${id}`)
+      .pipe(map(resp => {
+        return resp;
+      }));
+  }
+
+  changeFood(reservationId: string, food: number): any{
+    return this.http.post<OpenSpace>(`${environment.apiUrl}/reservation/${reservationId}/changeFood/`, {food})
+      .pipe(map(resp => {
+        // store user details and jwt token in local storage to keep user logged in between page refreshes
+        console.log(resp);
+      }));
+  }
+
+  getAvailable(date: Date, openSpaceId: string): any {
     return this.http.get<Reservation[]>(`${environment.apiUrl}/reservation/available/${openSpaceId}/${date}`)
       .pipe(map(resp => {
         return resp;
@@ -59,6 +75,30 @@ export class OpenSpaceService {
 
   reserve(reservation: ReservationCreation): any {
     return this.http.post<OpenSpace>(`${environment.apiUrl}/reservation/`, reservation)
+      .pipe(map(resp => {
+        // store user details and jwt token in local storage to keep user logged in between page refreshes
+        console.log(resp);
+      }));
+  }
+
+  addToolsToReservation(reservationId: string, toolIds: string[]): any{
+    return this.http.post<OpenSpace>(`${environment.apiUrl}/reservation/${reservationId}/addTools/`, {tools: toolIds})
+      .pipe(map(resp => {
+        // store user details and jwt token in local storage to keep user logged in between page refreshes
+        console.log(resp);
+      }));
+  }
+
+  removeToolsToReservation(reservationId: string, toolIds: string[]): any{
+    return this.http.post<OpenSpace>(`${environment.apiUrl}/reservation/${reservationId}/removeTools/`, {tools: toolIds})
+      .pipe(map(resp => {
+        // store user details and jwt token in local storage to keep user logged in between page refreshes
+        console.log(resp);
+      }));
+  }
+
+  delete(reservationId: string): any{
+    return this.http.delete<Reservation>(`${environment.apiUrl}/reservation/${reservationId}`)
       .pipe(map(resp => {
         // store user details and jwt token in local storage to keep user logged in between page refreshes
         console.log(resp);

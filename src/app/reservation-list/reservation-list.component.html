@@ -1,0 +1,76 @@
+<div style="display: flex;">
+<div style="display: inline-block;width:70%;">
+<table width="100%" style="margin-top: 2%;margin-left: 2%;" mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+  <!--- Note that these columns can be defined in any order.
+        The actual rendered columns are set as a property on the row definition" -->
+<ng-container matColumnDef="select">
+    <th mat-header-cell *matHeaderCellDef>
+    </th>
+    <td mat-cell *matCellDef="let row">
+      <mat-checkbox (click)="$event.stopPropagation()"
+                    (change)="$event ? selection.toggle(row) : null"
+                    [checked]="selection.isSelected(row)"
+                    [aria-label]="checkboxLabel(row)">
+      </mat-checkbox>
+    </td>
+  </ng-container>
+
+  <!-- Position Column -->
+  <ng-container matColumnDef="OpenSpace">
+    <th mat-header-cell *matHeaderCellDef> OpenSpace </th>
+    <td mat-cell *matCellDef="let element"> {{element.room.openSpace.name}} </td>
+  </ng-container>
+
+  <!-- Name Column -->
+  <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef> Salle </th>
+    <td mat-cell *matCellDef="let element"> {{element.room.name}} </td>
+  </ng-container>
+
+  <!-- Weight Column -->
+  <ng-container matColumnDef="description">
+    <th mat-header-cell *matHeaderCellDef> Date </th>
+    <td mat-cell style="width: 35%;" *matCellDef="let element"> {{formatDate(element)}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="hour">
+    <th mat-header-cell *matHeaderCellDef> Horaire </th>
+    <td mat-cell style="width: 25%;" *matCellDef="let element"> {{formatHour(element)}} </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row   *matRowDef="let row; columns: displayedColumns;" (click)="selectRow(row)"></tr>
+</table>
+</div>
+<div id="description" style="display: inline-block; width: 40%;margin-left:5%; ">
+<div *ngIf="reservation; then thenBlock1;"></div>
+<ng-template  #thenBlock1>
+
+
+<mat-card class="example-card">
+  <div style="display: inline-block"><h1>Reservation</h1></div>
+  <div style="display: inline-block;margin-left: 50%;"><button mat-raised-button color="warn" (click)="delete()">Annuler</button></div>
+  <div>
+  {{reservation.room.openSpace.name}}
+  </div>
+  <div>{{weekday[reservation.start.getDay()]}} {{reservation.start.getDate()}} {{month[reservation.start.getMonth()]}} {{reservation.start.getFullYear()}} </div> <div style="display: inline-block; width: auto;">  {{reservation.start.getHours()}}:00 </div>
+   ------------------------>
+  <div style="display: inline-block;">{{reservation.end.getHours()}}:00</div>
+                  <br>
+                  <div style="display: inline-block; margin-top: 60px;"><mat-icon style="transform: scale(4);margin-left: 30px;">laptop</mat-icon></div>
+                  <div style="display: inline-block; margin-left: 65px;">{{sortedTool.laptops.length + laptopsToAdd}}</div> <button mat-raised-button  style="margin-left:2%;" color="primary" (click)="removeLaptops()" [disabled]="this.laptopsToAdd + this.sortedTool.laptops.length  === 0"  > <mat-icon>remove_from_queue</mat-icon> </button> <button style="margin-left:2%;" mat-raised-button color="primary" (click)="addLaptops()" [disabled]="this.laptopsToAdd>= this.availableTool.laptops.length"><mat-icon>library_add</mat-icon></button> <div style="display: inline-block;margin-left: 10px;"></div>
+                  <br>
+
+                  <div style="display: inline-block; margin-top: 60px;"><mat-icon style="transform: scale(4);margin-left: 30px;">local_printshop</mat-icon></div> <div style="display: inline-block; margin-left: 65px;">{{sortedTool.printers.length + printersToAdd}}</div> <button mat-raised-button  style="margin-left:2%;" color="primary" (click)="removePrinter()" [disabled]="this.printersToAdd + this.sortedTool.printers.length  === 0"> <mat-icon>remove_from_queue</mat-icon> </button><button mat-raised-button  style="margin-left:2%;" color="primary" (click)="addPrinter()" [disabled]="this.printersToAdd>= this.availableTool.printers.length"> <mat-icon>library_add</mat-icon></button>  <div style="display: inline-block;margin-left: 10px;"></div>
+
+                  <br><div style="display: inline-block; margin-top: 60px;"><mat-icon style="transform: scale(4);margin-left: 30px;"> fastfood</mat-icon></div> <div style="display: inline-block; margin-left: 65px;">{{reservation.food + foodToAdd}}</div> <button mat-raised-button  style="margin-left:2%;" color="primary" [disabled]="this.foodToAdd + this.reservation.food  === 0" (click)="removeFood()"> <mat-icon>remove_from_queue</mat-icon> </button>  <button mat-raised-button style="margin-left:2%;"  color="primary" [disabled]="this.foodToAdd + this.reservation.food >= 20" (click)="addFood()"> <mat-icon>library_add</mat-icon></button>  <div style="display: inline-block;margin-left: 10px;"></div>
+                  <button mat-raised-button  style="margin-left:2%;" color="primary"  (click) ="modify()" [disabled]="this.printersToAdd === 0 && this.laptopsToAdd==0 && this.foodToAdd == 0"> Modifier !</button>
+                  <br>
+                  <br>
+</mat-card>
+
+</ng-template>
+</div>
+
+</div>
