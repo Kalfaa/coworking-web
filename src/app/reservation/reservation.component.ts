@@ -281,17 +281,20 @@ export class ReservationComponent implements OnInit, AfterViewChecked{
   isRoomAvailable(roomId: string): boolean{
     const start: Date = new Date(this.firstFormGroup.controls.date.value);
     start.setHours(parseInt(this.startHour));
+    start.setMinutes(1);
     const end: Date = new Date(this.firstFormGroup.controls.date.value);
     end.setHours(parseInt(this.endHour));
 
     for (let i = 0; i < this.reservationForDate.length; i++){
         const reservation: Reservation = this.reservationForDate[i];
         if (reservation.room.id === roomId){
-          console.log(new Date(reservation.start));
-          console.log(new Date(reservation.end));
-          console.log(start);
-          console.log(end);
+
           if (this.isDateOverLapping(new Date(reservation.start), new Date(reservation.end), start, end)){
+            console.log("OVERLAPP");
+            console.log(new Date(reservation.start));
+            console.log(new Date(reservation.end));
+            console.log(start);
+            console.log(end);
             return false;
           }
         }
@@ -315,14 +318,16 @@ export class ReservationComponent implements OnInit, AfterViewChecked{
   isToolAvailable(toolId: string): boolean{
     const start: Date = new Date(this.firstFormGroup.controls.date.value);
     start.setHours(parseInt(this.startHour));
+    start.setMinutes(1);
     const end: Date = new Date(this.firstFormGroup.controls.date.value);
     end.setHours(parseInt(this.endHour));
+
 
     for (let i = 0; i < this.reservationForDate.length; i++) {
       const reservation: Reservation = this.reservationForDate[i];
       console.log(reservation);
-      for (let j = 0; j < reservation.tool.length; j++){
-        if (reservation.tool[j].id === toolId) {
+      for (let j = 0; j < reservation.tools.length; j++){
+        if (reservation.tools[j].id === toolId) {
           console.log(new Date(reservation.start));
           console.log(new Date(reservation.end));
           console.log(start);

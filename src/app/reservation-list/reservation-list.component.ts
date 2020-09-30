@@ -144,8 +144,8 @@ export class ReservationListComponent implements OnInit {
     for (let i = 0; i < this.reservationForDate.length; i++) {
       const reservation: Reservation = this.reservationForDate[i];
       console.log(reservation);
-      for (let j = 0; j < reservation.tool.length; j++) {
-        if (reservation.tool[j].id === toolId) {
+      for (let j = 0; j < reservation.tools.length; j++) {
+        if (reservation.tools[j].id === toolId) {
           if (this.isDateOverLapping(new Date(reservation.start), new Date(reservation.end), start, end)) {
             console.log('OVERLAPING');
             return false;
