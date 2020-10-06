@@ -1,3 +1,4 @@
+
 export interface ILogin {
   token: string;
 }
@@ -6,6 +7,7 @@ export class User {
   id: string;
   username: string;
   token: any;
+  user: any;
 }
 
 
@@ -94,4 +96,25 @@ export class RoomAvailable{
 export class ToolAvailable{
   tool: Tool;
   available;
+}
+
+
+export enum SubscriptionType {
+  SIMPLE = 'SIMPLE',
+  RESIDENT = 'RESOLVE',
+  NONE= 'NONE'
+}
+
+
+export class Subscription{
+  type: SubscriptionType;
+  end: Date;
+}
+
+export class UserProfile {
+  id: string;
+  username: string;
+  created: Date;
+  isAdmin: boolean;
+  subscription: Subscription;
 }

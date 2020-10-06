@@ -30,6 +30,11 @@ import {MatRadioButton, MatRadioModule} from '@angular/material/radio';
 import {MatTableModule} from '@angular/material/table';
 import {MatSliderModule} from '@angular/material/slider';
 import { ReservationListComponent } from './reservation-list/reservation-list.component';
+import { MyAccountComponent } from './my-account/my-account.component';
+import { AddSubscriptionComponent } from './add-subscription/add-subscription.component';
+import {MatBadgeModule} from '@angular/material/badge';
+import {MatDialogModule} from '@angular/material/dialog';
+import { DialogSubComponent } from './dialog-sub/dialog-sub.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -38,6 +43,9 @@ import { ReservationListComponent } from './reservation-list/reservation-list.co
     LoginComponent,
     RegisterComponent,
     ReservationListComponent,
+    MyAccountComponent,
+    AddSubscriptionComponent,
+    DialogSubComponent,
   ],
   imports: [
     BrowserModule,
@@ -61,6 +69,8 @@ import { ReservationListComponent } from './reservation-list/reservation-list.co
     MatRadioModule,
     MatTableModule,
     MatSliderModule,
+    MatBadgeModule,
+    MatDialogModule,
   ],
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }],
