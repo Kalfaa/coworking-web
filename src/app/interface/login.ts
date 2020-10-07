@@ -101,7 +101,7 @@ export class ToolAvailable{
 
 export enum SubscriptionType {
   SIMPLE = 'SIMPLE',
-  RESIDENT = 'RESOLVE',
+  RESIDENT = 'RESIDENT',
   NONE= 'NONE'
 }
 

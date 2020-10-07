@@ -3,7 +3,7 @@
     <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon" mat-button (click)="drawer.toggle()" >
       <mat-icon>menu</mat-icon>
     </button>
-    <span>Co Working</span>
+    <span (click)="this.router.navigate(['/']);">Co Working</span>
     <span class="example-spacer"></span>
     <div *ngIf="isLogged(); then thenBlock else elseBlock;"></div>
     <ng-template #thenBlock><label class="logout-label">logout</label><mat-icon class="ico" (click)="logout()">logout</mat-icon></ng-template>

@@ -10,7 +10,7 @@ import {FormBuilder} from '@angular/forms';
 })
 export class AppComponent implements OnInit{
   title = 'coworking-web';
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService, public router: Router) { }
   ngOnInit(): void {
 
   }

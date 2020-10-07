@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {UserService} from '../user-service.service';
-import {RoomAvailable, UserProfile} from '../interface/login';
+import {RoomAvailable, SubscriptionType, UserProfile} from '../interface/login';
 import {AuthService} from '../auth.service';
 import {first} from 'rxjs/internal/operators';
 import {Router} from '@angular/router';
@@ -12,6 +12,7 @@ import {Router} from '@angular/router';
 })
 export class MyAccountComponent implements OnInit {
   user: UserProfile;
+  subscribe = 'Aucun abonnement';
   constructor(private userService: UserService, private authService: AuthService, private router: Router) { }
 
   ngOnInit(): void {
@@ -19,6 +20,13 @@ export class MyAccountComponent implements OnInit {
       .subscribe(
         data => {
             this.user = data;
+            console.log(this.user.subscription.type);
+            if (this.user.subscription && this.user.subscription.type === SubscriptionType.RESIDENT){
+              this.subscribe = 'Abonnement résident';
+
+            }else if (this.user.subscription && this.user.subscription.type === SubscriptionType.SIMPLE){
+              this.subscribe = 'Abonnement simple';
+            }
         },
         error => {
           console.log(error);

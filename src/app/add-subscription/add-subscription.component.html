@@ -2,7 +2,7 @@
 <div style="width: 80%;display: flex; " >
 <mat-card class="example-card" style="width: 40%;margin-left: 20%">
       <mat-card-header>
-      <mat-card-title>Abonnement résident</mat-card-title>
+      <mat-card-title>Abonnement simple</mat-card-title>
       <mat-card-subtitle>24€/mois ou  20€/mois pendant 12 mois</mat-card-subtitle>
       </mat-card-header>
       <img mat-card-image src="assets/absimple.jpg">
@@ -30,7 +30,7 @@
 
       </mat-card-content>
       <mat-card-actions>
-      <button mat-raised-button (click)="openDialog()" matBadge="!" matBadgeColor="warn"  color="primary" style="margin-left:80%">S'abonner</button>
+      <button mat-raised-button (click)="openDialog()"  [disabled]=" subType == 'SIMPLE'" matBadge="!" matBadgeColor="warn"  color="primary" style="margin-left:80%">S'abonner</button>
       </mat-card-actions>
       </mat-card>
 
@@ -65,7 +65,7 @@
 
   </mat-card-content>
   <mat-card-actions>
-  <button mat-raised-button (click)="openDialog()" matBadge="!" matBadgeColor="warn"  color="primary" style="margin-left:80%">S'abonner</button>
+  <button mat-raised-button (click)="openDialogRes()" [disabled]=" subType == 'RESIDENT'" matBadge="!" matBadgeColor="warn"  color="primary" style="margin-left:80%">S'abonner</button>
   </mat-card-actions>
   </mat-card>
 

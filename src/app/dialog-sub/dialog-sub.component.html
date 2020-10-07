@@ -1,11 +1,54 @@
-<h1 mat-dialog-title>Hi  keke </h1>
-<div mat-dialog-content>
-  <p>What's your favorite animal?</p>
-  <mat-form-field>
-    <mat-label>Favorite Animal</mat-label>
-  </mat-form-field>
-</div>
+<div *ngIf="data.sub ==='simple'; then thenBlock1 else bloc2;"></div>
+        <ng-template #thenBlock1>
+        <h1 mat-dialog-title>Abonnement simple</h1>
+        <p>Choisissez une durée d'abonnement : </p>
+        <div mat-dialog-content style="width: 100%;">
+            <section class="example-section" style="height: 30px;">
+              <mat-radio-group [(ngModel)]="labelPosition">
+                <mat-radio-button class="example-margin" value="1">1 mois</mat-radio-button>
+                <mat-radio-button class="example-margin" value="12">12 mois</mat-radio-button>
+              </mat-radio-group>
+            </section>
+            <label style="margin-left:60%">Prix : </label>
+            <div *ngIf="labelPosition === '1'; then thenBlock111 else bloc222;"></div>
+            <ng-template #thenBlock111>
+            <label>24€</label>
+            </ng-template>
+            <ng-template #bloc222>
+            <label>240€</label>
+            </ng-template>
+
+            </div>
+         </ng-template>
+        <ng-template #bloc2>
+               <h1 mat-dialog-title>Abonnement résident</h1>
+               <p>Choisissez une durée d'abonnement : </p>
+               <div mat-dialog-content style="width: 100%;">
+                   <section class="example-section" style="height: 30px;">
+                     <mat-radio-group [(ngModel)]="labelPosition">
+
+                       <mat-radio-button class="example-margin" value="1">1 mois</mat-radio-button>
+                       <mat-radio-button class="example-margin" value="8">8 mois</mat-radio-button>
+                     </mat-radio-group>
+                   </section>
+                   <label style="margin-left:60%">Prix : </label>
+
+                   <div *ngIf="labelPosition === '1'; then thenBlock11 else bloc22;"></div>
+                   <ng-template #thenBlock11>
+
+                   <label>300€</label>
+                  </ng-template>
+                  <ng-template #bloc22>
+                    <label>2016€</label>
+                  </ng-template>
+
+
+                   </div>
+        </ng-template>
 <div mat-dialog-actions>
-  <button mat-button (click)="onNoClick()">No Thanks</button>
-  <button mat-button [mat-dialog-close]="" cdkFocusInitial>Ok</button>
+  <button mat-raised-button (click)="onNoClick()">No Thanks</button>
+  <button  mat-raised-button color="primary" [mat-dialog-close]="{data:data,month:labelPosition}" cdkFocusInitial>Ok</button>
 </div>
+
+
+

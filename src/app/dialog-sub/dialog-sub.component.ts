@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 
 @Component({
   selector: 'app-dialog-sub',
@@ -6,13 +7,15 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./dialog-sub.component.css']
 })
 export class DialogSubComponent implements OnInit {
+  labelPosition: '1' | '8' |  '12' = '1';
 
-  constructor() { }
+
+  constructor(  public dialogRef: MatDialogRef<DialogSubComponent>,  @Inject(MAT_DIALOG_DATA) public data: any) { }
 
   ngOnInit(): void {
   }
 
   onNoClick() {
-    return;
+    this.dialogRef.close();
   }
 }
