@@ -2,8 +2,8 @@
   <!--<button mat-raised-button (click)="isLinear = !isLinear" id="toggle-linear">
     {{!isLinear ? 'Enable linear mode' : 'Disable linear mode'}}
   </button>-->
-  <mat-horizontal-stepper [linear]="isLinear" #stepper>
-    <mat-step [stepControl]="firstFormGroup">
+  <mat-horizontal-stepper [linear]="true" #stepper>
+    <mat-step [stepControl]="firstFormGroup" >
     <div class="bendo">
       <form [formGroup]="firstFormGroup" style="width: 30%;display: inline-block;">
         <ng-template matStepLabel>Choisissez une date de réservation </ng-template>
@@ -51,7 +51,7 @@
     </div>
     </mat-step>
     <!-- #docregion label -->
-    <mat-step [stepControl]="secondFormGroup" label="Selectionnez une salle à reserver">
+    <mat-step label="Selectionnez une salle à reserver">
     <!-- #enddocregion label -->
 
 
@@ -78,7 +78,7 @@
         </div>
     </mat-step>
     <mat-step>
-      <ng-template matStepLabel>Finalisez la reservation</ng-template>
+      <ng-template matStepLabel style="">Finalisez la reservation</ng-template>
                 <!--<mat-list role="list">
                 <form class="example-container">
                 <div *ngFor="let tool of getTools(); let i = index" style="" >
@@ -87,6 +87,7 @@
                 </div>
                 </form>
                 </mat-list>-->
+                <div style="display: inline-block;width: 40%;">
                 <div style="display: inline-block; margin-top: 60px;"><mat-icon style="transform: scale(4);margin-left: 30px;">laptop</mat-icon></div>
                 <div style="display: inline-block; margin-left: 65px;">{{pcNumber}}</div> <div style="display: inline-block;margin-left: 10px;"></div>
                 <mat-slider color="primary" [disabled]="getPc().length===0" thumbLabel [(ngModel)]="pcNumber" tickInterval="1000" min="0" [max]="getPc().length"></mat-slider>
@@ -97,6 +98,29 @@
 
                 <br><div style="display: inline-block; margin-top: 60px;"><mat-icon style="transform: scale(4);margin-left: 30px;"> fastfood</mat-icon></div> <div style="display: inline-block; margin-left: 65px;">{{foodNumber}}</div>  <div style="display: inline-block;margin-left: 10px;"></div>
                 <mat-slider color="primary" thumbLabel [(ngModel)]="foodNumber" tickInterval="1000" min="0" [max]="20"></mat-slider>
+                </div>
+                <div style="display: inline-block;">
+                      <h2> Résumé de la commande </h2>
+                      <div *ngIf="subType == 'RESIDENT'; then resident else simple;"></div>
+                      <ng-template #simple>
+                      <label>Reservation : {{priceForHour()}} €</label>
+                                            <br><label>Repas x{{foodNumber}} : {{foodNumber * 5}}€  </label>
+                                            <br> <label>Ordinateur portable x{{pcNumber}} : {{pcNumber * 3}}€  </label>
+                                            <br> <label>Imprimante x{{printerNumber}} : {{printerNumber * 3}}€ </label>
+                                            <h5> Prix : {{priceForHour() + printerNumber * 3+ pcNumber * 3 + foodNumber * 5}} € </h5>
+                      </ng-template>
+                      <ng-template #resident>Reservation : <label style="text-decoration: line-through; color:rgb(112,112,112);">{{priceForHour()}}€ </label>  <label>  0€</label>
+                                            <br><label>Repas x{{foodNumber}} : {{foodNumber * 5}}€  </label>
+                                            <br> <label>Ordinateur portable x{{pcNumber}} : {{pcNumber * 3}}€  </label>
+                                            <br> <label>Imprimante x{{printerNumber}} : {{printerNumber * 3}}€ </label>
+                                            <h5> Prix : {{printerNumber * 3+ pcNumber * 3 + foodNumber * 5}} € </h5>
+                      </ng-template>
+
+
+
+
+
+                      </div>
 
       <div style="margin-top:2%;">
         <button mat-raised-button   mat-button matStepperPrevious>Back</button>
