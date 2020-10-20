@@ -10,6 +10,15 @@ export class User {
   user: any;
 }
 
+export class WorkEvent {
+  id: string;
+  name: string;
+  image: string;
+  description: string;
+  date: Date;
+  openSpace: any;
+}
+
 export class HourRange{
   constructor(public start: any = '9:00', public end: any= '21:00') {}
 
@@ -71,6 +80,7 @@ export class OpenSpace {
   rooms: Room[];
   tools: Tool[];
   openHours: OpenHours;
+  events: WorkEvent[];
 }
 
 

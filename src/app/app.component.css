@@ -11,6 +11,6 @@
   margin-left: 0.5%;
 }
 
-mat-drawer-container, mat-drawer-content { display: block; height: 100%; }
+mat-drawer-content { display: block; height: 100%; }
 main { height: 100%; overflow-y: auto; }
 

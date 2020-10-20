@@ -112,7 +112,6 @@ export class ReservationComponent implements OnInit, AfterViewChecked{
           if (this.openSpace.rooms[0].id){
               this.roomId = this.openSpace.rooms[0].id; // TODO
             }
-          console.log(this.openSpace);
           this.startHour = null;
           this.endHour =  null;
           this.startHours = [];

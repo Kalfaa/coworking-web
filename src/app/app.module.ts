@@ -35,6 +35,7 @@ import { AddSubscriptionComponent } from './add-subscription/add-subscription.co
 import {MatBadgeModule} from '@angular/material/badge';
 import {MatDialogModule} from '@angular/material/dialog';
 import { DialogSubComponent } from './dialog-sub/dialog-sub.component';
+import {MatTabsModule} from '@angular/material/tabs';
 @NgModule({
   declarations: [
     AppComponent,
@@ -71,6 +72,7 @@ import { DialogSubComponent } from './dialog-sub/dialog-sub.component';
     MatSliderModule,
     MatBadgeModule,
     MatDialogModule,
+    MatTabsModule
   ],
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }],
