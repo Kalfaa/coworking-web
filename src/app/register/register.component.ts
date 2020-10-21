@@ -1,8 +1,20 @@
 import { Component, OnInit } from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup, FormGroupDirective, NgForm, Validators} from '@angular/forms';
 import {AuthService} from '../auth.service';
 import {first} from 'rxjs/internal/operators';
 import {Router} from '@angular/router';
+import {ErrorStateMatcher} from '@angular/material/core';
+export class MyErrorStateMatcher implements ErrorStateMatcher {
+  isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
+    const invalidCtrl = !!(control && control.invalid && control.parent.dirty);
+    const invalidParent = !!(control && control.parent && control.parent.invalid && control.parent.dirty);
+
+    return (invalidCtrl || invalidParent);
+  }
+}
+
+
+
 
 @Component({
   selector: 'app-register',
@@ -10,7 +22,7 @@ import {Router} from '@angular/router';
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent implements OnInit {
-
+  matcher = new MyErrorStateMatcher();
   form: FormGroup;
   public loginInvalid: boolean;
   constructor(    private fb: FormBuilder,
@@ -54,3 +66,5 @@ export class RegisterComponent implements OnInit {
   }
 
 }
+
+
