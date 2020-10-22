@@ -1,20 +1,21 @@
 <div style="display: flex;margin-top:20px ;">
-<mat-card class="example-card" style="width: 60%;">
-  <mat-card-header>
+<mat-card class="example-card">
+  <div><mat-card-header>
     <div mat-card-avatar class="example-header-image">   <mat-icon style=" margin-left: 10px;margin-top: 10px;transform: scale(2.5)">account_box</mat-icon></div>
-    <mat-card-title>Mon compte</mat-card-title>
+    <div></div><mat-card-title>Mon compte</mat-card-title>
     <mat-card-subtitle >{{user.username}}</mat-card-subtitle>
   </mat-card-header>
+  </div>
   <mat-card-content>
-  <div style="display: inline-block"><mat-card-title >Nombre de réservation effectuée</mat-card-title>
+  <div><mat-card-title >Nombre de réservation effectuée</mat-card-title>
   <mat-card-subtitle >12</mat-card-subtitle></div>
-  <div style=" margin-left:10%;display: inline-block"><mat-card-title>Abonnement</mat-card-title>
-  <mat-card-subtitle >{{subscribe}}</mat-card-subtitle></div> <button (click)="goToSub()"  style="display: inline-block" mat-raised-button color="primary">Upgrade</button>
-   <div style=" margin-left:5%;display: inline-block;margin-right: 5%;"><mat-card-title>Dépense</mat-card-title>
+  <div style="display:flex;flex-direction: row;"><div><mat-card-title>Abonnement</mat-card-title>
+                                                        <mat-card-subtitle >{{subscribe}}</mat-card-subtitle> </div><div style="margin-left:2%;margin-top: 3%"><button (click)="goToSub()"  style="display: inline-block" mat-raised-button color="primary">Upgrade</button></div></div>
+   <div><mat-card-title>Dépense</mat-card-title>
    <mat-card-subtitle >1 € </mat-card-subtitle></div>
-   <div style="display: inline-block"><mat-card-title>Date de création</mat-card-title>
+   <div><mat-card-title>Date de création</mat-card-title>
    <mat-card-subtitle > 12 novembre 1996 </mat-card-subtitle></div>
-   <div style="display: inline-block; margin-left:5%"><mat-card-title>OpenSpace préféré</mat-card-title>
+   <div><mat-card-title>OpenSpace préféré</mat-card-title>
    <mat-card-subtitle >Odéon</mat-card-subtitle></div>
   </mat-card-content>
   <mat-card-actions>

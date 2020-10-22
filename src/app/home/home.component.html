@@ -96,15 +96,20 @@
                           <div *ngIf="openSpace.events.length>0; then event1 else event2;"></div>
                           <ng-template #event1>
                            <div *ngFor="let event of openSpace.events; let i = index;" class="card-body" style="display: flex;flex-direction: row">
-                           <div><h6>{{event.name}}</h6>
+                           <div>
                                 <div *ngIf="event.image == ''; then img1 else img2;"></div>
-                                <ng-template #img1>     <img mat-card-image   style="max-width: 200px;"  src="assets/cowk.jpg" alt="Photo of a Shiba Inu"> </ng-template>
+                                <ng-template #img1>     <img mat-card-image   style="max-width: 300px;"  src="assets/cowk.jpg" alt="Photo of a Shiba Inu"> </ng-template>
                                 <ng-template #img2>
-                                <img mat-card-image style="max-width: 200px;" [src]="'http://localhost:3000/event/file/'+event.image" alt="EventPhoto">
+                                <img mat-card-image style="max-width: 300px;" [src]="'http://localhost:3000/event/file/'+event.image" alt="EventPhoto">
                                 </ng-template>
                                 <!--<div> {{event.date.getDate()}} {{event.date.getMonth()}} {{event.date.getFullYear()}}</div>-->
                             </div>
-                               <div style="margin-left: 3%">{{event.description}}</div>
+                               <div style="margin-left: 3%;width: 60%;">
+                               <div><h6>{{event.name}}</h6></div>
+                               <div>{{event.description}}</div>
+                               </div>
+                               <div class="your-div" style="margin-left:3%;width: 20%;"><span>{{formatDateEvent(event)}}</span></div>
+
                             </div>
 
                             </ng-template>
