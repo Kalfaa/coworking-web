@@ -81,7 +81,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
-                    <div class="section-title">Evènement</div>
+                    <div class="section-title">EVENEMENTS</div>
                     <h2>Venez nous rencontrer lors de nos différents évènements !<!doctype html>
 
                         <html lang="fr">
@@ -93,12 +93,13 @@
                         <body>
                         <mat-tab-group mat-align-tabs="start">
                           <mat-tab *ngFor="let openSpace of openSpaces; let i = index" [label]="openSpace.name">
+                          <div style="overflow: auto; height: 1300px;">
                           <div *ngIf="openSpace.events.length>0; then event1 else event2;"></div>
                           <ng-template #event1>
                            <div *ngFor="let event of openSpace.events; let i = index;" class="card-body" style="display: flex;flex-direction: row">
                            <div>
                                 <div *ngIf="event.image == ''; then img1 else img2;"></div>
-                                <ng-template #img1>     <img mat-card-image   style="max-width: 300px;"  src="assets/cowk.jpg" alt="Photo of a Shiba Inu"> </ng-template>
+                                <ng-template #img1>     <img mat-card-image   style="max-width: 300px;"  src="assets/cowk.jpg" alt="Photo de l'évenement"> </ng-template>
                                 <ng-template #img2>
                                 <img mat-card-image style="max-width: 300px;" [src]="'http://localhost:3000/event/file/'+event.image" alt="EventPhoto">
                                 </ng-template>
@@ -116,6 +117,7 @@
                              <ng-template #event2>
                             <div> Aucun évènement encore programmé ! </div>
                             </ng-template>
+                            </div>
                           </mat-tab>
                         </mat-tab-group>
 

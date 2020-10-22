@@ -5,6 +5,7 @@ import {UserService} from '../user-service.service';
 import {SubscriptionType, UserProfile} from '../interface/login';
 import {first} from 'rxjs/internal/operators';
 import {AuthService} from '../auth.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-add-subscription',
@@ -14,9 +15,12 @@ import {AuthService} from '../auth.service';
 export class AddSubscriptionComponent implements OnInit {
   user: UserProfile;
   subType: SubscriptionType = SubscriptionType.NONE;
-  constructor(public dialog: MatDialog, private userService: UserService, private authService: AuthService) { }
+  constructor(public dialog: MatDialog, private userService: UserService, private authService: AuthService, private router: Router) { }
 
   ngOnInit(): void {
+    if (!this.authService.isLogged()) {
+      this.router.navigate(['login']);
+    }
     this.userService.readById(this.authService.userValue.user.id).pipe(first())
       .subscribe(
         data => {
