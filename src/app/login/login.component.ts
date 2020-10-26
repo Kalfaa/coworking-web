@@ -40,6 +40,7 @@ export class LoginComponent implements OnInit {
         },
         error => {
               this.alertService.error(error);
+              this.loginInvalid = true;
               console.log(error);
               console.log('eheheh');
         });

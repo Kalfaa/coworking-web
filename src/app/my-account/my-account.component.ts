@@ -22,10 +22,10 @@ export class MyAccountComponent implements OnInit {
             this.user = data;
             console.log(this.user.subscription.type);
             if (this.user.subscription && this.user.subscription.type === SubscriptionType.RESIDENT){
-              this.subscribe = 'Abonnement résident';
+              this.subscribe = 'Abonnement résident jusqu\'au : ' + this.user.subscription.end  ;
 
             }else if (this.user.subscription && this.user.subscription.type === SubscriptionType.SIMPLE){
-              this.subscribe = 'Abonnement simple';
+              this.subscribe = 'Abonnement simple jusqu\'au : ' + this.user.subscription.end  ;
             }
         },
         error => {

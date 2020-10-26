@@ -60,9 +60,18 @@
              <mat-card class="example-card">
              <mat-card-header>
              <mat-card-title>{{available.room.name}}</mat-card-title>
-             <mat-card-subtitle>Dog Breed</mat-card-subtitle>
+             <mat-card-subtitle *ngIf="available.available; then libre else reserved;"></mat-card-subtitle>
+              <ng-template #libre >
+                           <span style="color: mediumseagreen;">Libre</span>
+               </ng-template>
+               <ng-template #reserved>
+                           <span style="color: indianred;">Reservé</span>
+               </ng-template>
              </mat-card-header>
-             <img mat-card-image src="assets/cowk.jpg" alt="Photo of a Shiba Inu">
+              <div *ngIf="available.room.image == ''; then img1 else img2;"></div>
+                               <ng-template #img1>     <img mat-card-image   style="max-width: 200px;"  src="assets/cowk.jpg"> </ng-template>
+                               <ng-template #img2>
+                               <img mat-card-image style="max-width: 200px;" [src]="'http://localhost:3000/event/file/'+available.room.image">  </ng-template>
              <mat-card-content>
              <p>
              {{ available.room.description }}

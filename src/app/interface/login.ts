@@ -95,6 +95,7 @@ export class Room {
   name: string;
   description: string;
   openSpace: OpenSpaceId;
+  image:string;
 }
 
 export enum ToolType {
