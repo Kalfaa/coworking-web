@@ -24,9 +24,9 @@ export class ReservationComponent implements OnInit, AfterViewChecked{
   openSpaces: OpenSpace[];
   startHours: ReservationHour[] = [];
   endHours: ReservationHour[] = [];
-  hourArrayDefault = ['8:00', '9:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00'];
+  hourArrayDefault = ['8:00', '9:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00', '22:00', '23:00'];
 
-  hourArray = ['8:00', '9:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00'];
+  hourArray = ['8:00', '9:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00', '22:00', '23:00'];
   startDiv: HTMLElement;
   endDiv: HTMLElement;
   startHour: string;
@@ -478,7 +478,7 @@ export class ReservationComponent implements OnInit, AfterViewChecked{
   sliceEndHour(value: string, array: string[]): string[]{
     for (let i = 0; i < array.length; i++){
       if (parseInt(value) === parseInt(array[i])){
-        return array.slice(0, i+1);
+        return array.slice(0, i + 1);
       }
     }
   }

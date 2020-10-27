@@ -93,7 +93,7 @@
                         <body>
                         <mat-tab-group mat-align-tabs="start">
                           <mat-tab *ngFor="let openSpace of openSpaces; let i = index" [label]="openSpace.name">
-                          <div style="overflow: auto; height: 1300px;">
+                          <div style="overflow: auto; max-height: 1300px;">
                           <div *ngIf="openSpace.events.length>0; then event1 else event2;"></div>
                           <ng-template #event1>
                            <div *ngFor="let event of openSpace.events; let i = index;" class="card-body" style="display: flex;flex-direction: row">

@@ -6,7 +6,7 @@
     <span (click)="this.router.navigate(['/']);">Co Working</span>
     <span class="example-spacer"></span>
     <div *ngIf="isLogged(); then thenBlock else  elseBlock;"></div>
-    <ng-template #thenBlock><label class="logout-label">Connection</label><mat-icon class="ico" (click)="logout()">logout</mat-icon></ng-template>
+    <ng-template #thenBlock><label class="logout-label">Deconnexion</label><mat-icon class="ico" (click)="logout()">logout</mat-icon></ng-template>
     <ng-template #elseBlock><label class="login" >Connectez-vous</label><mat-icon class="ico" (click)="this.router.navigate(['/']);">login</mat-icon></ng-template>
   </mat-toolbar>
 
