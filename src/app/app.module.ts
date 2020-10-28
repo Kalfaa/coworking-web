@@ -36,6 +36,7 @@ import {MatBadgeModule} from '@angular/material/badge';
 import {MatDialogModule} from '@angular/material/dialog';
 import { DialogSubComponent } from './dialog-sub/dialog-sub.component';
 import {MatTabsModule} from '@angular/material/tabs';
+import { OpenspaceDetailComponent } from './openspace-detail/openspace-detail.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -47,6 +48,7 @@ import {MatTabsModule} from '@angular/material/tabs';
     MyAccountComponent,
     AddSubscriptionComponent,
     DialogSubComponent,
+    OpenspaceDetailComponent,
   ],
   imports: [
     BrowserModule,
