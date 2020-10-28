@@ -8,13 +8,11 @@
   </div>
   <mat-card-content>
   <div><mat-card-title >Nombre de réservation effectuée</mat-card-title>
-  <mat-card-subtitle >12</mat-card-subtitle></div>
+  <mat-card-subtitle >{{reslist.length}}</mat-card-subtitle></div>
   <div style="display:flex;flex-direction: row;"><div><mat-card-title>Abonnement</mat-card-title>
                                                         <mat-card-subtitle>{{subscribe}}</mat-card-subtitle> </div><div style="margin-left:2%;margin-top: 3%"><button (click)="goToSub()"  style="display: inline-block" mat-raised-button color="primary">Upgrade</button></div></div>
-   <div><mat-card-title>Dépense</mat-card-title>
-   <mat-card-subtitle >1 € </mat-card-subtitle></div>
    <div><mat-card-title>Date de création</mat-card-title>
-   <mat-card-subtitle > 12 novembre 1996 </mat-card-subtitle></div>
+   <mat-card-subtitle > {{creationDate}} </mat-card-subtitle></div>
    <div><mat-card-title>OpenSpace préféré</mat-card-title>
    <mat-card-subtitle >Odéon</mat-card-subtitle></div>
   </mat-card-content>
